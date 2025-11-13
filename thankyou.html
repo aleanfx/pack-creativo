@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gracias — Pack Creativo</title>
+  <style>
+    :root{--bg:#0b0b0f;--accent:#ff4da6;--gold:#e4c273}
+    html,body{height:100%;margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#050506,#0b0b0f);color:#fff;display:grid;place-items:center;overflow:hidden;}
+    .card{width:92%;max-width:720px;padding:28px;border-radius:18px;background:linear-gradient(180deg,#101018,#0c0c10);box-shadow:0 20px 60px rgba(0,0,0,.6);text-align:center}
+    .check{font-size:64px;margin-bottom:8px;transform:scale(.8);opacity:0;animation:popIn .9s cubic-bezier(.2,.9,.3,1) forwards}
+    h1{font-size:28px;margin:6px 0 8px;opacity:0;transform:translateY(10px);animation:slideUp .8s .15s forwards}
+    p{color:#cfcfe0;margin:0 0 18px;opacity:0;transform:translateY(10px);animation:slideUp .8s .25s forwards}
+    .spark{width:100px;height:100px;margin:18px auto 0;border-radius:50%;background:conic-gradient(from 90deg,var(--accent),#ffb2d6,var(--gold));filter:blur(18px);opacity:0;animation:halo .9s .35s forwards}
+    .btn{display:inline-block;margin-top:18px;padding:12px 18px;border-radius:12px;background:linear-gradient(180deg,#7a4cf7,#ff4da6);color:#fff;text-decoration:none;font-weight:700;transform:translateY(6px);opacity:0;animation:slideUp .6s .45s forwards}
+    @keyframes popIn{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.06);opacity:1}100%{transform:scale(1)}}
+    @keyframes slideUp{to{transform:none;opacity:1}}
+    @keyframes halo{to{opacity:1;filter:blur(8px);transform:scale(1)}}
+    .small{font-size:13px;color:#a9a9bb;margin-top:10px;opacity:.9}
+
+    /* WhatsApp button inside thank-you */
+    .ty-whatsapp{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      width:52px;
+      height:52px;
+      display:inline-grid;
+      place-items:center;
+      background: linear-gradient(180deg,#25D366,#1ea84f);
+      border-radius:12px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+      border:1px solid rgba(0,0,0,0.12);
+      z-index:120;
+      text-decoration:none;
+      transition: transform .12s ease, box-shadow .12s ease, opacity .18s ease;
+    }
+    .ty-whatsapp:active{ transform: scale(.98); }
+    .ty-whatsapp svg{width:26px;height:26px;display:block}
+    .ty-whatsapp svg path{ stroke:#fff; stroke-width:0.9; paint-order:stroke fill; }
+
+    @media (max-width:480px){
+      .card{padding:20px;border-radius:14px}
+      .ty-whatsapp{right:14px;bottom:14px;width:48px;height:48px}
+    }
+  </style>
+</head>
+<body>
+  <div class="card" role="status" aria-live="polite">
+    <div class="check">✅</div>
+    <h1>¡Gracias! Pedido recibido</h1>
+    <p>Hemos registrado tu pago y pronto te contactaremos por WhatsApp para activar tu Pack Creativo.</p>
+    <div class="spark" aria-hidden="true"></div>
+    <a class="btn" href="/" aria-label="Volver al inicio">Volver al inicio</a>
+    <div class="small">Si no recibes contacto en menos de 24h, escríbenos por WhatsApp.</div>
+  </div>
+
+  <!-- WhatsApp contact button visible on thank-you page -->
+  <a
+    class="ty-whatsapp"
+    id="tyWhatsapp"
+    href="#"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Contactar por WhatsApp"
+  >
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20.52 3.48A11.86 11.86 0 0 0 12 0C5.373 0 .058 5.314.058 11.94c0 2.104.55 4.164 1.596 5.99L0 24l6.259-1.633A11.92 11.92 0 0 0 12 24c6.627 0 11.94-5.314 11.94-11.94a11.86 11.86 0 0 0-3.42-8.58z" fill="#25D366"/>
+      <path d="M17.08 14.06c-.3-.15-1.77-.87-2.05-.97-.28-.1-.49-.15-.7.15-.21.3-.82.97-1.01 1.17-.18.2-.36.22-.67.07-.31-.15-1.31-.48-2.49-1.53-.92-.82-1.54-1.83-1.72-2.14-.18-.31-.02-.48.13-.63.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.21 0-.39-.01-.54-.02-.15-.7-1.68-.96-2.31-.25-.61-.51-.52-.7-.53-.18-.01-.39-.01-.6-.01-.21 0-.55.08-.84.39-.29.31-1.11 1.08-1.11 2.63 0 1.55 1.14 3.05 1.3 3.26.16.21 2.24 3.42 5.43 4.8 3.19 1.38 3.19.92 3.77.86.58-.07 1.87-.76 2.14-1.5.27-.74.27-1.37.19-1.5-.08-.13-.29-.2-.59-.35z" fill="#fff"/>
+    </svg>
+  </a>
+
+  <script>
+    // Minimal client-side ping in case the backend still needs confirmation; silent failures ignored.
+    (async ()=>{
+      try{
+        await fetch('/api/thankyou-ping', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ts: Date.now()}) });
+      }catch(e){}
+    })();
+    // Ensure keyboard users can focus WhatsApp link quickly
+    const wa = document.querySelector('.ty-whatsapp');
+    if(wa) wa.setAttribute('tabindex','0');
+
+    // Prefill WhatsApp message when clicking the thank-you page button
+    const tyBtn = document.getElementById('tyWhatsapp');
+    if(tyBtn){
+      tyBtn.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const msg = '🙋🏻 Hola, he pagado y quiero activar mi suscripción al *¡Pack Creativo!* 🎖️';
+        const url = 'https://wa.me/584126660925?text=' + encodeURIComponent(msg);
+        window.open(url, '_blank', 'noopener');
+      }, { passive: true });
+    }
+  </script>
+
+  <!-- Fire Meta Pixel Purchase event when the thank-you page loads -->
+  <script>
+    try {
+      if (window.fbq) {
+        fbq('track', 'Purchase', { value: 10.00, currency: 'USD' });
+      }
+    } catch (e) { /* ignore errors */ }
+  </script>
+</body>
+</html>

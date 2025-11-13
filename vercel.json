@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/thankyou.html", "destination": "/thankyou.html" },
+    { "source": "/-408556141727491016.mp4", "destination": "/-408556141727491016.mp4" },
+    { "source": "/:path*", "destination": "/index.html" }
+  ]
+}
