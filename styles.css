@@ -1,0 +1,678 @@
+:root{
+  --bg:#0b0b0f;
+  --card:#111219;
+  --muted:#b8b8c7;
+  --text:#fff;
+  --pink:#ff4da6;
+  --purple:#7a4cf7;
+  --gold:#e4c273;
+  --success:#45d19e;
+  --error:#ff6b6b;
+  --ring: 0 0 0 1px rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.45);
+}
+
+/* Base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+  background: radial-gradient(1200px 600px at 70% -100px, rgba(122,76,247,.20), transparent 50%),
+              radial-gradient(900px 500px at 0% 0%, rgba(255,77,166,.12), transparent 48%),
+              var(--bg);
+  color:var(--text);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  scroll-behavior:smooth;
+}
+/* Prevent unwanted horizontal scroll */
+html, body { overflow-x: hidden; }
+/* Ensure flex children can shrink and inputs don't force overflow */
+.field, .inline, .container, .nav-inner { min-width: 0; }
+/* Allow form controls and code to wrap instead of growing wide */
+input, select, button, textarea, .copy-line code { min-width: 0; word-break: break-word; white-space: normal; }
+a{color:inherit;text-decoration:none}
+
+/* Container */
+.container{width:100%;max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* Subtle animated gradient border utility */
+.gradient-border{
+  position:relative;
+  border-radius:18px;
+  background:linear-gradient(180deg, #14151c, #0e0f15) padding-box,
+             conic-gradient(from 180deg, var(--purple), var(--pink), var(--gold), var(--purple)) border-box;
+  border:1px solid transparent;
+  animation:spin 8s linear infinite;
+  background-clip:padding-box, border-box;
+}
+@keyframes spin { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
+@media (prefers-reduced-motion: reduce){
+  .gradient-border{animation:none}
+}
+
+/* Nav */
+.nav{
+  position:sticky;top:0;z-index:30;
+  backdrop-filter:saturate(160%) blur(10px);
+  background:linear-gradient(180deg, rgba(14,14,20,.75), rgba(14,14,20,.55));
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:6px 14px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+  width:24px;height:24px;display:grid;place-items:center;border-radius:6px;
+  background: radial-gradient(60% 60% at 30% 30%, rgba(255,77,166,.35), transparent),
+              radial-gradient(60% 60% at 70% 70%, rgba(122,76,247,.35), transparent),
+              #1a1b24;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow: var(--ring);
+}
+.brand h1{font-size:14px;margin:0;font-weight:700;letter-spacing:.2px}
+.cta-top{
+  display:flex;align-items:center;gap:8px;
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:10px 14px;background:#151622;color:#fff;
+  transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--ring)}
+.btn-primary{
+  background:linear-gradient(180deg, #7a4cf7, #5b34cf);
+  border-color:transparent;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* New: prominent top buy button */
+.btn-buy-top{
+  font-weight:700;
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:9px;
+  min-width:88px;
+  background: linear-gradient(180deg,#16a34a,#059669);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 8px 24px rgba(5,150,105,0.14);
+  transition:transform .16s ease, box-shadow .16s ease, background .16s ease;
+  animation: greenPulse 2.8s ease-in-out infinite;
+  display:inline-flex;align-items:center;justify-content:center;
+  position:relative;
+  z-index:1;
+}
+/* Add a stronger glowing halo and a subtle sparkling flare */
+.btn-buy-top::before{
+  content:"";
+  position:absolute;inset:-6px;border-radius:12px;
+  background: radial-gradient(60% 60% at 30% 30%, rgba(16,185,129,0.18), transparent),
+              radial-gradient(60% 60% at 70% 70%, rgba(16,185,129,0.12), transparent);
+  filter: blur(10px);
+  opacity:0.9;
+  pointer-events:none;
+  z-index:-1;
+  transition:opacity .25s ease, transform .25s ease;
+  animation: glowPulse 2.8s ease-in-out infinite;
+}
+.btn-buy-top::after{
+  content:"";
+  position:absolute;width:28px;height:8px;right:10px;top:6px;border-radius:6px;
+  background: linear-gradient(90deg, rgba(255,255,255,.9), rgba(255,255,255,.15));
+  transform:translateX(-30%) rotate(-18deg) scale(0.9);
+  opacity:0.0;
+  transition:opacity .3s ease, transform .6s ease;
+  animation: sparkle 4s linear infinite;
+  pointer-events:none;
+  z-index:2;
+}
+@keyframes glowPulse{
+  0%{transform:scale(1);opacity:0.85}
+  50%{transform:scale(1.04);opacity:1}
+  100%{transform:scale(1);opacity:0.85}
+}
+@keyframes sparkle{
+  0%{opacity:0; transform:translateX(-30%) rotate(-18deg) scale(0.9)}
+  10%{opacity:0.9; transform:translateX(0%) rotate(-18deg) scale(1)}
+  20%{opacity:0; transform:translateX(30%) rotate(-18deg) scale(1.1)}
+  100%{opacity:0; transform:translateX(30%) rotate(-18deg) scale(1.1)}
+}
+
+/* Slight hover motion and gradient shift for attention */
+.btn-buy-top:hover{
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 34px rgba(5,150,105,0.20);
+  filter: saturate(1.05) brightness(1.03);
+  animation: none;
+}
+
+/* Ensure readability on small screens (reduce scale a touch) */
+@media (max-width:480px){
+  .btn-buy-top{font-size:13px;min-width:110px;padding:8px 12px}
+}
+
+@keyframes greenPulse{
+  0%{box-shadow:0 6px 18px rgba(16,185,129,0.10); transform:translateY(0) scale(1)}
+  50%{box-shadow:0 18px 40px rgba(16,185,129,0.18); transform:translateY(-2px) scale(1.02)}
+  100%{box-shadow:0 6px 18px rgba(16,185,129,0.10); transform:translateY(0) scale(1)}
+}
+
+/* Add a small sparkling pseudo-element to feel playful */
+.btn-buy-top::after{
+  content: "";
+  margin-left:0;
+  display:none;
+}
+
+/* subtle shimmer for price chip */
+.price-chip{position:relative;overflow:hidden}
+.price-chip::after{
+  content:"";position:absolute;inset:0;background:linear-gradient(90deg, transparent, rgba(255,255,255,.06), transparent);
+  transform:translateX(-120%);animation: shimmer 4s linear infinite;
+}
+@keyframes shimmer{100%{transform:translateX(120%)}}
+
+/* Price styling: show previous price struck and current promotional price */
+.old-price{
+  color:var(--muted);
+  text-decoration:line-through;
+  margin-right:4px; /* reduced gap so prices sit closer */
+  font-weight:600;
+  font-size:13px;
+  opacity:0.9;
+}
+/* When an old-price is directly followed by new-price, add a subtle pipe separator before the new price */
+.old-price + .new-price::before{
+  content: " | ";
+  color: var(--muted);
+  font-weight:600;
+  margin-right:6px;
+}
+.new-price{
+  color:#fff;
+  background: linear-gradient(90deg, #ffb2d6, #ff4da6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight:800;
+  font-size:14px;
+}
+
+/* Make nav/top price (the 10$ in the header) green and animated like other accents.
+   Target specifically the price-chip inside the nav to avoid changing other occurrences. */
+.nav .price-chip .new-price{
+  /* Green gradient for the top price */
+  background: linear-gradient(90deg, #9ff5c9, #16a34a, #059669);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight:900;
+  font-size:14px;
+  /* subtle animated shift */
+  background-size: 200% 100%;
+  animation: greenShift 3.5s linear infinite;
+}
+
+/* Animation to move the gradient and emulate the color-shifting effect used on other elements */
+@keyframes greenShift{
+  0% { background-position: 0% 50%; filter: none; }
+  50% { background-position: 100% 50%; filter: hue-rotate(8deg); }
+  100% { background-position: 0% 50%; filter: none; }
+}
+
+/* Ensure reduced motion respects preference */
+@media (prefers-reduced-motion: reduce){
+  .nav .price-chip .new-price{
+    animation: none;
+    background-size: auto;
+    filter: none;
+  }
+}
+
+/* hover/active micro-interactions */
+.hero-card{transition:transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s}
+.hero-card:hover{transform:translateY(-6px) scale(1.005);box-shadow:0 14px 40px rgba(0,0,0,.55)}
+.tool{transition:transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s, opacity .35s}
+.tool:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 10px 30px rgba(0,0,0,.45);opacity:1}
+
+/* New: pressed (undirse) animation for main buttons */
+@keyframes pressIn {
+  0% { transform: translateY(0) scale(1); box-shadow: 0 12px 34px rgba(0,0,0,0.12); }
+  50% { transform: translateY(2px) scale(0.995); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+  100% { transform: translateY(1px) scale(0.997); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+}
+
+/* Apply a quick sink effect on active/press for the three main buttons.
+   This targets: top buy button, primary buttons, and the submit button. */
+.btn-buy-top,
+.btn-primary,
+.btn-submit {
+  will-change: transform, box-shadow;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+
+/* Mouse / pointer active feedback */
+.btn-buy-top:active,
+.btn-primary:active,
+.btn-submit:active {
+  transform: translateY(2px) scale(0.996) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.14) !important;
+}
+
+/* Keyboard / focus-visible press simulation when user triggers via keyboard (space/enter),
+   provide an accessible press-styled class for scripts if needed */
+.btn-buy-top.press,
+.btn-primary.press,
+.btn-submit.press {
+  animation: pressIn 160ms ease forwards;
+}
+
+/* Touch: add quick feedback on touchstart/touchend by toggling .press via JS (keeps CSS-only fallback) */
+/* Slightly reduce hover animations on touch-capable devices to avoid jank */
+@media (hover: none) and (pointer: coarse) {
+  .btn-buy-top,
+  .btn-primary,
+  .btn-submit {
+    transition: transform .08s ease, box-shadow .08s ease;
+  }
+  .btn-buy-top:hover,
+  .btn-primary:hover,
+  .btn-submit:hover { transform: none; box-shadow: none; }
+}
+
+/* Respect reduced motion preferences: avoid the press animation and use a simple active transform */
+@media (prefers-reduced-motion: reduce){
+  @keyframes pressIn { 0%{transform:none} 100%{transform:none} }
+  .btn-buy-top:active,
+  .btn-primary:active,
+  .btn-submit:active,
+  .btn-buy-top.press,
+  .btn-primary.press,
+  .btn-submit.press {
+    transform: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+}
+
+/* kicker dot pulse */
+.kicker .dot{animation: dotPulse 2.6s infinite}
+@keyframes dotPulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.85}100%{transform:scale(1);opacity:1}}
+
+/* Respect reduced motion: disable the added animations */
+@media (prefers-reduced-motion: reduce){
+  .btn-primary, .btn-buy-top, .price-chip::after, .hero-card, .tool, .kicker .dot { animation: none; transition: none; transform: none; box-shadow: none; }
+}
+
+/* Hero */
+.hero{padding:18px 0 12px}
+.hero-wrap{
+  display:grid;gap:24px;grid-template-columns:1fr;align-items:center
+}
+.hero-card{
+  padding:12px 18px 16px;border-radius:18px;box-shadow:var(--ring);
+  position:relative;
+}
+.kicker{
+  display:inline-flex;gap:6px;align-items:center;
+  font-size:12px;color:var(--muted);
+  position:absolute;
+  top:10px;
+  left:16px;
+  margin:0;
+}
+.title{
+  font-size:34px;line-height:1.1;margin:8px 0 10px;font-weight:800;
+  letter-spacing:.2px;
+  background:linear-gradient(90deg, #fff, #eaeaf3 60%, #e4c273);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.subtitle{
+  font-size:16px;color:#dcdce6;max-width:680px
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+
+/* Tools grid (replaced by carousel on most viewports) */
+.tools{padding:18px 0}
+
+/* Carousel */
+.carousel-wrap{position:relative;display:flex;align-items:center;gap:12px}
+.carousel{overflow:hidden;width:100%}
+.carousel-track{
+  display:flex;gap:10px;padding:10px 6px;scroll-snap-type:x mandatory;overflow-x:auto;
+  -webkit-overflow-scrolling:touch;scroll-behavior:smooth;
+}
+.carousel-track::-webkit-scrollbar{height:8px}
+.carousel-track::-webkit-scrollbar-thumb{background:rgba(255,255,255,.06);border-radius:8px}
+.carousel-track > .tool{flex:0 0 auto;scroll-snap-align:center;min-width:240px;max-width:320px}
+
+.carousel-btn{
+  background:linear-gradient(180deg,#151622,#0f1016);color:var(--text);border:1px solid rgba(255,255,255,.06);
+  padding:10px;border-radius:10px;font-size:20px;display:grid;place-items:center;width:44px;height:44px;
+  cursor:pointer;
+}
+.carousel-btn:hover{box-shadow:var(--ring)}
+.carousel-btn:active{transform:translateY(1px)}
+
+@media(min-width:700px){
+  .carousel-track > .tool{min-width:260px;max-width:360px}
+  .title{font-size:44px}
+}
+@media(min-width:980px){
+  .carousel-track > .tool{min-width:300px;max-width:420px}
+  .title{font-size:52px}
+}
+
+/* Small tool adjustments for compact layout */
+.tool{
+  display:flex;align-items:flex-start;gap:12px;padding:16px;border-radius:12px;
+  background:linear-gradient(180deg, #14151c, #0f1016);
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow: var(--ring);
+  transform:translateY(6px);opacity:0;
+  transition:transform .45s cubic-bezier(.22,.61,.36,1), opacity .45s ease;
+}
+.tool.revealed{transform:translateY(0);opacity:1}
+.tool-emoji{
+  font-size:26px;line-height:1;
+  display: none; /* Removed emojis from the carousel tools (kept for accessibility/markup but hidden) */
+}
+.tool-body{display:flex;flex-direction:column;min-width:0}
+.tool-name{font-weight:800;font-size:15px;white-space:normal;overflow:hidden;text-overflow:ellipsis}
+.tool-desc{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.2;max-height:2.6em;overflow:hidden}
+
+/* Payment */
+.payment{padding:20px 0}
+.section-title{font-size:22px;margin:0 0 16px;font-weight:700}
+.field.attachment-field {
+  margin-top: 12px; /* desplaza un poco más hacia abajo la sección de adjuntar captura */
+}
+.form{
+  display:grid;gap:14px;padding:18px;border-radius:16px;
+  background:linear-gradient(180deg, #14151c, #0f1016);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:var(--ring);
+}
+.field{display:grid;gap:8px}
+/* Form labels: brighter and bolder for better contrast against dark background */
+label{
+  font-size:13px;
+  color:#f3f4f6; /* brighter label color for accessibility */
+  font-weight:700; /* slightly heavier so labels read clearly */
+  letter-spacing:0.2px;
+}
+/* Inputs / selects / textareas: darker background with stronger border to separate fields */
+input, select, textarea{
+  font:inherit;
+  color:#ffffff;
+  background:#0d0d12; /* slightly darker to distinguish from card background */
+  border:1px solid rgba(255,255,255,.12); /* stronger border for clarity */
+  border-radius:12px;
+  padding:12px;
+  outline:none;
+  transition:border-color .16s ease, box-shadow .16s ease, background .16s ease;
+  box-shadow: none;
+}
+/* Buttons keep their earlier styles; ensure button text remains clear */
+button{
+  font:inherit;
+  color:inherit;
+}
+/* Placeholder color more muted but still readable */
+input::placeholder, textarea::placeholder{
+  color: rgba(255,255,255,0.55);
+}
+/* Focus state: clearer ring and border */
+input:focus, select:focus, textarea:focus{
+  border-color: rgba(122,76,247,0.85);
+  box-shadow: 0 0 0 6px rgba(122,76,247,0.12);
+}
+.inline{display:flex;gap:10px;flex-wrap:wrap}
+.copy-line{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 12px;border-radius:12px;background:#12121a;border:1px solid rgba(255,255,255,.06);
+}
+.copy-line small{
+  color:var(--muted);
+  font-weight:700;
+  min-width:96px;
+  text-align:right;
+  display:inline-block;
+}
+/* add colon separator after label with spacing */
+.copy-line small::after{
+  content: ":"; margin:0 8px; color:var(--muted); font-weight:700;
+}
+.copy-line code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New", monospace;font-size:13px;color:#eaeaf3}
+.btn-copy{
+  padding:8px 12px; /* increased right padding to avoid text overlapping */
+  border-radius:10px;background:#191a22;border:1px solid rgba(255,255,255,.08);
+  font-size:12px;color:#cfcfe0;
+  white-space:nowrap;             /* prevent wrapping/stacking of the button text */
+  min-width: fit-content;         /* ensure button can expand to fit its content */
+}
+.btn-copy:hover{background:#20222c}
+.submit{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
+.btn-submit{
+  background:linear-gradient(180deg, #ff4da6, #f02d8d);
+  border-color:transparent;font-weight:700;padding:12px 16px;border-radius:12px;
+  margin-top: 12px; /* separa el botón un poco más hacia abajo */
+}
+.form-note{font-size:12px;color:#a9a9bb}
+
+/* Toast */
+.toast{
+  position:fixed;left:50%;bottom:20px;transform:translateX(-50%);
+  padding:10px 12px;border-radius:12px;background:#151622;color:#fff;border:1px solid rgba(255,255,255,.08);
+  box-shadow:var(--ring);font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease;
+}
+.toast.show{opacity:1;transform:translate(-50%, -4px)}
+
+/* Thank you */
+.thankyou{display:none;padding:40px 0}
+.ty-card{
+  padding:24px;border-radius:16px;box-shadow:var(--ring);
+}
+.ty-title{font-size:20px;margin:0 0 6px}
+.ty-check{color:var(--success);font-size:22px}
+
+/* Footer */
+.footer{padding:12px 0;color:#a9a9bb;font-size:12px}
+.sep{height:1px;background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.02));margin:8px 0}
+
+/* Reveal-on-scroll */
+.reveal{transform:translateY(14px);opacity:0;transition:transform .7s cubic-bezier(.22,.61,.36,1), opacity .7s ease}
+.reveal.revealed{transform:translateY(0);opacity:1}
+
+.tool.touching{
+  /* animated outline when touched */
+  box-shadow: 0 0 0 3px rgba(122,76,247,0.14), 0 12px 30px rgba(0,0,0,0.45);
+  transform: translateY(-4px) scale(1.02);
+  transition: box-shadow .18s ease, transform .18s ease;
+  border:1px solid rgba(122,76,247,0.22);
+}
+@media (prefers-reduced-motion: reduce){
+  .tool.touching{ transform:none; transition:none; box-shadow:none; border-color:rgba(255,255,255,.06) }
+}
+
+/* ... existing code ... */
+.premium-minimal{
+  font-size:14px;
+  font-weight:600;
+  display:inline-block;
+  margin-left:6px;
+  padding:4px 8px;
+  border-radius:999px;
+  color:transparent;
+  background: linear-gradient(90deg, #f8e7c2, #e4c273 40%, #ffd9ea 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  box-shadow: 0 6px 18px rgba(228,194,115,0.08);
+  border: 1px solid rgba(228,194,115,0.08);
+  vertical-align:middle;
+  letter-spacing:0.6px;
+}
+
+@media (max-width:480px){
+  .premium-minimal{ font-size:13px; padding:3px 7px; }
+}
+
+.tool-logo{
+  width:48px;
+  height:48px;
+  object-fit:contain;
+  border-radius:8px;
+  margin-right:8px;
+  flex:0 0 auto;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.04);
+}
+/* Ensure layout keeps emoji and logo aligned */
+.tool{align-items:center}
+
+/* New: prominent premium tag used across titles and labels */
+.premium-tag{
+  display:inline-block;padding:6px 10px;border-radius:999px;font-weight:900;font-size:13px;
+  background:linear-gradient(90deg,#ffdd99,#ffb2d6,#ff4da6);
+  color:#0b0b0f !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+   box-shadow:0 8px 28px rgba(255,77,166,0.12), inset 0 -2px 6px rgba(255,255,255,0.06);
+   transform:translateY(-1px);
+}
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){ .premium-tag{animation:none;transform:none} }
+
+.promo-timer{
+  margin-top:4px;
+  display:flex;
+  gap:4px; /* reduced gap to remove extra space between label and numbers */
+  align-items:center;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:14px;
+}
+.promo-timer strong{
+  font-size:12px;
+  font-weight:600;
+  opacity:0.85;
+  line-height:1;
+  letter-spacing:0.2px;
+}
+.promo-timer .countdown{
+  margin-left:0; /* ensure no extra gap from the label */
+  font-weight:800;
+  color: #fff;
+  background: linear-gradient(90deg, #ffb2d6, #ff4da6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size:14px;
+  padding:2px 6px; /* slightly reduced padding to tighten the layout */
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.04);
+}
+.promo-timer.expired .countdown{
+  color:var(--muted);
+  -webkit-text-fill-color: initial;
+  background:none;
+}
+
+/* New: animated promo dot placed before the promotion label */
+.promo-dot{
+  display:inline-block;
+  width:6px;
+  height:6px;
+  margin-right:6px;
+  border-radius:50%;
+  vertical-align:middle;
+  flex:0 0 auto;
+  /* Minimal solid color to match existing palette while staying subtle */
+  background: #ff4da6;
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: none;
+  /* Remove animations for a minimalist look */
+  animation: none;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce){
+  .promo-dot{ animation: none; transform: none; }
+}
+
+/* ... existing code ... */
+ 
+ .premium-plain{
+   font-size:15px;
+   font-weight:700;
+   color: #ffffff; /* match the tool-name color */
+   margin-left:6px;
+   background: none;
+   -webkit-background-clip: initial;
+   background-clip: initial;
+   -webkit-text-fill-color: initial;
+   padding:0;
+   border-radius:0;
+   box-shadow: none;
+   border: none;
+   vertical-align: middle;
+ }
+ 
+/* ... existing code ... */
+ 
+/* Floating WhatsApp button (square with slightly rounded corners) */
+.whatsapp-fab{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  width:44px;            /* reduced size */
+  height:44px;           /* reduced size */
+  display:inline-grid;
+  place-items:center;
+  /* Changed background to WhatsApp green */
+  background: linear-gradient(180deg,#25D366,#1ea84f);
+  border-radius:10px; /* slightly rounded (a bit smaller) */
+  box-shadow: 0 8px 22px rgba(0,0,0,0.40);
+  border:1px solid rgba(0,0,0,0.12);
+  z-index:60;
+  text-decoration:none;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .18s ease, visibility .18s ease;
+  opacity: 0;                   /* hidden by default */
+  visibility: hidden;          /* remove from assistive pointer flow */
+  pointer-events: none;
+  transform: translateY(6px) scale(0.98);
+}
+.whatsapp-fab svg{display:block;width:24px;height:24px;}
+
+/* Add white outline to SVG paths for contrast */
+.whatsapp-fab svg path{
+  stroke: #ffffff;
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+}
+.whatsapp-fab:focus{outline:none; box-shadow: 0 10px 30px rgba(37,211,102,0.18), 0 0 0 3px rgba(37,211,102,0.08)}
+.whatsapp-fab:hover{transform:translateY(-4px); box-shadow: 0 18px 44px rgba(30,168,79,0.36)}
+ 
+/* Visible state toggled by JS when #pago is in view */
+.whatsapp-fab.visible{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  animation: whatsappEntrance 540ms cubic-bezier(.22,.8,.36,1);
+  will-change: transform, opacity;
+}
+/* New entrance keyframes for the WhatsApp FAB */
+@keyframes whatsappEntrance {
+  0%   { transform: translateY(18px) scale(0.96); opacity: 0; }
+  60%  { transform: translateY(-6px) scale(1.02); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .whatsapp-fab.visible{ animation: none; transform: none; }
+}
